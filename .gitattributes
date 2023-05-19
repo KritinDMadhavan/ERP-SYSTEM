@@ -1,0 +1,3 @@
+.gitignore merge=ours
+frontend/** merge=ours
+requirements.txt merge=ours

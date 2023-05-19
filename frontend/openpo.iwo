@@ -1,0 +1,32 @@
+openpo.iwo
+orderstatus.department.name
+
+schedule
+    cost
+    scheduled
+    department
+        name
+    order
+        iwo
+        product
+            name
+
+
+order_status
+    quantity
+    scheduled
+    department
+        name
+    order
+        iwo
+        open_quantity / closed_quantity
+        product
+            name
+            open quanity  * unit price / closed quanity  * unit price
+
+
+link department head with user?
+closed po has department as null or shipping?
+unit_price for product?
+
+part num PK? user def or by us?

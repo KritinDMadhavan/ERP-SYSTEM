@@ -1,0 +1,287 @@
+mutation Create($input: GenericScalar!, $resource: String!) {
+  CreateObject(input: $input, resource: $resource) {
+    error
+    ok
+  }
+}
+
+mutation Update($input: GenericScalar!, $resource: String!) {
+  UpdateObject(input: $input, resource: $resource) {
+    error
+    ok
+  }
+}
+
+mutation Delete($deletekeys: GenericScalar!, $resource: String!) {
+  DeleteObject(input: $deletekeys, resource: $resource) {
+    error
+    ok
+  }
+}
+
+query GetOpenPOs {
+  openpos {
+    edges {
+      node {
+        iwo
+        openQuantity
+        closedQuantity
+        qcComments
+        product {
+          description
+          materialGroup
+          partNum
+        }
+        orderStatusSet {
+          edges {
+            node {
+              scheduled
+              completed
+              cost
+              quantity
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query Products {
+  products {
+    edges {
+      node {
+        description
+        materialGroup
+        partNum
+        company {
+          name
+        }
+      }
+    }
+  }
+}
+
+query Departments {
+  departments {
+    edges {
+      node {
+        name
+        head
+        description
+        type
+      }
+    }
+  }
+}
+
+query OrderStatus {
+  orderStatuses {
+    edges {
+      node {
+        order {
+          iwo
+        }
+        department {
+          name
+        }
+        quantity
+      }
+    }
+  }
+}
+
+query Inventories {
+  inventories {
+    edges {
+      node {
+        name
+        description
+        quantity
+      }
+    }
+  }
+}
+
+query Requirements {
+  requirements {
+    edges {
+      node {
+        order {
+          iwo
+        }
+        inventory {
+          name
+        }
+        quantity
+      }
+    }
+  }
+}
+
+query Costings {
+  costings {
+    edges {
+      node {
+        date
+        type
+        amount
+        comments
+      }
+    }
+  }
+}
+
+query IPOs {
+  ipos {
+    edges {
+      node {
+        inventory {
+          name
+        }
+        status
+        quantity
+      }
+    }
+  }
+}
+
+query Users {
+  users {
+    edges {
+      node {
+        name
+        designation
+        uuid
+      }
+    }
+  }
+}
+
+query Companies {
+  companies {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}
+
+query Benchmarks {
+  benchmarks {
+    edges {
+      node {
+        product {
+          partNum
+        }
+        department {
+          name
+        },
+        durationString,
+        duration
+      }
+    }
+  }
+}
+
+query GetUserByUUID {
+  users(uuid: "0df74a3d-0d9b-42bf-834d-c434ec3836c4") {
+    edges {
+      node {
+        name
+        designation
+        uuid
+      }
+    }
+  }
+}
+
+mutation AddProductDetails($products: GenericScalar!, $benchmarks: GenericScalar!) {
+  productsData: CreateObject(input: $products, resource: "product") {
+    error
+    ok
+  }
+  benchmarkData: CreateObject(input: $benchmarks, resource: "benchmark") {
+    error
+    ok
+  }
+}
+
+
+mutation ParseOpenPOFile($input: GenericScalar!) {
+  ParseExcelData(input: $input) {
+    ok, error
+  }
+}
+
+---------------------------------------------------------------------------
+
+
+{
+  "input": [
+    {
+      "iwo": "sample5",
+      "open_quantity": 5,
+      "closed_quantity": 0,
+      "qc_comments": "NA",
+      "product": "test4"
+    },
+    {
+      "iwo": "sample6",
+      "open_quantity": 5,
+      "closed_quantity": 0,
+      "qc_comments": "NA",
+      "product": "test4"
+    },
+        {
+      "iwo": "sample7",
+      "open_quantity": 5,
+      "closed_quantity": 0,
+      "qc_comments": "NA",
+      "product": "test5"
+    },
+    {
+      "iwo": "sample8",
+      "open_quantity": 5,
+      "closed_quantity": 0,
+      "qc_comments": "NA",
+      "product": "test6"
+    }    
+  ],
+  "products": [
+    {
+      "description": "sample",
+      "material_group": "metal",
+      "part_num": "test6",
+      "company": 1
+    },
+    {
+      "description": "sample",
+      "material_group": "metal",
+      "part_num": "test7",
+      "company": 1
+    }
+  ],
+  "benchmarks": [
+    {
+      "product": "test7",
+      "department": "Profiling",
+      "duration": "36:00:00"
+    },
+    {
+      "product": "test6",
+      "department": "Machining",
+      "duration": "48:00:00"
+    },
+    {
+      "product": "test7",
+      "department": "Profiling",
+      "duration": "12:00:00"
+    }
+  ],
+  
+  "deletekeys": {"product": "test7", "department": "Profiling"},
+  "resource": "benchmark"
+}
